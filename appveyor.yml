@@ -7,6 +7,11 @@ version: '{build}'
 skip_commits:
   message: /\[ci\s+skip\]/
 
+cache:
+  - '%APPDATA%\npm-cache'
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+
 ## Environment configuration
 shallow_clone: true
 clone_depth: 1
