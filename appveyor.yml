@@ -25,7 +25,8 @@ matrix:
 install:
   ## Manual Growl install
   - ps: Add-AppveyorMessage "Installing Growl..."
-  - ps: choco install growl
+  - ps: choco install growl -y --no-progress
+  - ps: $env:path = "C:\Program Files (x86)\Growl for Windows;$env:path"
   ## Growl requires some time before it's ready to handle notifications
   - ps: Add-AppveyorMessage "Starting Growl service..."
   - ps: Start-Process -NoNewWindow Growl
