@@ -33,6 +33,7 @@ cache:
   directories:
     - ~/.npm # cache npm's cache
     - ~/npm # cache latest npm
+    - $HOME/AppData/Local/Temp/chocolatey
 
 jobs:
   include:
@@ -45,14 +46,37 @@ jobs:
     - &node
       script: npm start test.node
       node_js: '12'
-      name: 'Node.js v12'
+      name: 'Linux: Node.js v12'
 
     - <<: *node
       node_js: '10'
-      name: 'Node.js v10'
+      name: 'Linux: Node.js v10'
+
+    - &node_win
+      os: windows
+      node_js: '10'
+      name: 'Windows: Node.js v10'
+      before_install:
+        - choco install growl -y --no-progress --limit-output
+        - $env:path = "C:\Program Files (x86)\Growl for Windows;$env:path"
+      script: npm start test.node
+
+    - <<: *node_win
+      node_js: '12'
+      name: 'Windows: Node.js v12'
+
+    - <<: *node_win
+      node_js: '14'
+      name: 'Windows: Node.js v14'
 
     - script: npm start test.bundle test.browser
-      name: 'Browser'
+      os: windows
+      name: 'Windows: Browser'
+      node_js: 12
+      install: npm ci # we need the native modules here
+
+    - script: npm start test.bundle test.browser
+      name: 'Linux: Browser'
       node_js: 12
       install: npm ci # we need the native modules here
       addons:
