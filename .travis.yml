@@ -52,14 +52,28 @@ jobs:
       node_js: '10'
       name: 'Linux: Node.js v10'
 
+    - script: npm start test.bundle test.browser
+      name: 'Linux: Browser'
+      node_js: 12
+      env:
+        - SAUCE_ENABLED=1
+      install: npm ci # we need the native modules here
+      addons:
+        artifacts:
+          paths:
+            - .karma/
+            - ./mocha.js
+        chrome: stable
+        sauce_connect: true
+
     - &node_win
       os: windows
       node_js: '10'
       name: 'Windows: Node.js v10'
       before_install:
         - choco install growl -y --no-progress --limit-output
-        - set PATH="%PATH%;C:\Program Files (x86)\Growl for Windows"
-        - start Growl /S
+        - powershell $env:path = "C:\Program Files (x86)\Growl for Windows;$env:path"
+        - powershell Start-Process -NoNewWindow Growl
       script: npm start test.node
 
     - <<: *node_win
@@ -75,20 +89,8 @@ jobs:
       name: 'Windows: Browser'
       node_js: 12
       install: npm ci # we need the native modules here
-
-    - script: npm start test.bundle test.browser
-      name: 'Linux: Browser'
-      node_js: 12
-      env:
-        - SAUCE_ENABLED=1
-      install: npm ci # we need the native modules here
       addons:
-        artifacts:
-          paths:
-            - .karma/
-            - ./mocha.js
         chrome: stable
-        sauce_connect: true
 
     - stage: lint
       script: npm start lint
