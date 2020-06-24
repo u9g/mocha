@@ -73,6 +73,7 @@ jobs:
       name: 'Windows: Node.js v10'
       before_install:
         - choco install growl -y --no-progress --limit-output
+        - PowerShell -Command "Get-Childitem –Path C:\ -Include *Growl* -File -Recurse -ErrorAction SilentlyContinue"
         - PowerShell -Command 'Start-Process -NoNewWindow -FilePath "C:\Program Files (x86)\Growl for Windows\Growl.exe"'
       script: npm start test.node
 
