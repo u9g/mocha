@@ -67,7 +67,7 @@ jobs:
         sauce_connect: true
 
     - &node_win
-      stage: lint
+      stage: smoke
       os: windows
       node_js: '10'
       name: 'Windows: Node.js v10'
@@ -76,21 +76,21 @@ jobs:
         - PowerShell -Command 'Start-Process -NoNewWindow -FilePath "C:\Program Files (x86)\Growl for Windows\Growl.exe"'
       script: npm start test.node
 
-    - <<: *node_win
-      node_js: '12'
-      name: 'Windows: Node.js v12'
+    # - <<: *node_win
+    #   node_js: '12'
+    #   name: 'Windows: Node.js v12'
 
-    - <<: *node_win
-      node_js: '14'
-      name: 'Windows: Node.js v14'
+    # - <<: *node_win
+    #   node_js: '14'
+    #   name: 'Windows: Node.js v14'
 
-    - script: npm start test.bundle test.browser
-      os: windows
-      name: 'Windows: Browser'
-      node_js: 12
-      install: npm ci # we need the native modules here
-      addons:
-        chrome: stable
+    # - script: npm start test.bundle test.browser
+    #   os: windows
+    #   name: 'Windows: Browser'
+    #   node_js: 12
+    #   install: npm ci # we need the native modules here
+    #   addons:
+    #     chrome: stable
 
     - stage: lint
       script: npm start lint
