@@ -59,6 +59,7 @@ jobs:
       before_install:
         - choco install growl -y --no-progress --limit-output
         - set PATH="%PATH%;C:\Program Files (x86)\Growl for Windows"
+        - start Growl /S
       script: npm start test.node
 
     - <<: *node_win
