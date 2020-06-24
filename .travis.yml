@@ -75,7 +75,7 @@ jobs:
         - choco install growl -y --no-progress --limit-output
         - export PATH=$PATH:"/C/Program Files (x86)/Growl for Windows"
         - ls -la "/C/Program Files (x86)"
-        - ls -la "/C/Program Files (x86)/Growl for Windows"
+        - ls -la "/C/Program Files"
         - Growl &
       before_script:
         - growlnotify test
