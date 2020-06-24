@@ -67,12 +67,13 @@ jobs:
         sauce_connect: true
 
     - &node_win
+      stage: lint
       os: windows
       node_js: '10'
       name: 'Windows: Node.js v10'
       before_install:
         - choco install growl -y --no-progress --limit-output
-        - powershell Start-Process -NoNewWindow -FilePath "C:\Program Files (x86)\Growl for Windows\Growl.exe"
+        - PowerShell -Command 'Start-Process -NoNewWindow -FilePath "C:\Program Files (x86)\Growl for Windows\Growl.exe"'
       script: npm start test.node
 
     - <<: *node_win
