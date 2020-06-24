@@ -72,9 +72,17 @@ jobs:
       node_js: '10'
       name: 'Windows: Node.js v10'
       before_install:
-        - choco install growl -y --no-progress --limit-output
-        - find /c/ -iname growl*
-        - PowerShell -Command "Start-Process -NoNewWindow -FilePath 'C:\Program Files\Growl for Windows\Growl.exe'"
+        - powershell -command "$seaURL = 'https://github.com/briandunnington/growl-for-windows/releases/download/final/GrowlInstaller.exe'"
+        - powershell -command "$seaPath = '$($env:USERPROFILE)\GrowlInstaller.exe'"
+        - powershell -command "$webclient = New-Object Net.WebClient"
+        - powershell -command "$webclient.DownloadFile($seaURL, $seaPath)"
+        - powershell -command "mkdir C:\GrowlInstaller | out-null"
+        - powershell -command "7z x $seaPath -oC:\GrowlInstaller | out-null"
+        - powershell -command "cmd /c start /wait msiexec /i C:\GrowlInstaller\Growl_v2.0.msi /quiet"
+        - powershell -command "$env:path = 'C:\Program Files (x86)\Growl for Windows;$env:path'"
+        - powershell -command "Start-Process -NoNewWindow Growl"
+      before_script:
+        - powershell -command "growlnotify test"
       script: npm start test.node
 
     # - <<: *node_win
