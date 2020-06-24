@@ -79,6 +79,8 @@ jobs:
     - script: npm start test.bundle test.browser
       name: 'Linux: Browser'
       node_js: 12
+      env:
+        - SAUCE_ENABLED=1
       install: npm ci # we need the native modules here
       addons:
         artifacts:

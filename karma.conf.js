@@ -81,7 +81,7 @@ module.exports = config => {
   const env = process.env;
   let sauceConfig;
 
-  if (env.CI) {
+  if (env.SAUCE_ENABLED) {
     console.error('CI mode enabled');
     if (env.TRAVIS) {
       console.error('Travis-CI detected');
