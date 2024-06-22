@@ -7,7 +7,7 @@ description: 'Mocha is a feature-rich JavaScript test framework running on Node.
 Mocha is a feature-rich JavaScript test framework running on [Node.js][] and in the browser, making asynchronous testing _simple_ and _fun_. Mocha tests run serially, allowing for flexible and accurate reporting, while mapping uncaught exceptions to the correct test cases. Hosted on [GitHub][github-mocha].
 
 <nav class="badges">
-  <a href="https://gitter.im/mochajs/mocha"><img src="/images/join-chat.svg" height="18" alt="Gitter"></a>
+  <a href="https://discord.gg/KeDn2uXhER"><img alt="Chat - Discord" height="18" src="https://img.shields.io/badge/chat-Discord-5765F2.svg" /></a>
   <a href="#sponsors"><img src="https://opencollective.com/mochajs/tiers/sponsors/badge.svg" height="18" alt="OpenCollective sponsors"></a>
   <a href="#backers"><img src="https://opencollective.com/mochajs/tiers/backers/badge.svg" height="18" alt="OpenCollective backers"></a>
 </nav>
@@ -44,10 +44,12 @@ Mocha is a feature-rich JavaScript test framework running on [Node.js][] and in 
 - [before, after, before each, after each hooks](#hooks)
 - [arbitrary transpiler support (coffee-script etc)](#-compilers)
 - [TextMate bundle](#textmate)
+  {:.two-column}
 
 ## Table of Contents
 
 {{ toc }}
+{:.two-column}
 
 ## Installation
 
@@ -89,7 +91,7 @@ describe('Array', function () {
 Back in the terminal:
 
 ```bash
-$ ./node_modules/mocha/bin/mocha
+$ ./node_modules/mocha/bin/mocha.js
 
   Array
     #indexOf()
@@ -990,8 +992,6 @@ It can however make the output harder to interpret when comparing large strings.
 
 A value of 0 indicates no limit, default is 8192 characters.
 
-## Command-Line Usage
-
 ### `--full-trace`
 
 Enable "full" stack traces. By default, Mocha attempts to distill stack traces into less noisy (though still useful) output.
@@ -1460,7 +1460,7 @@ Available root hooks and their behavior:
 
 > _Tip: If you need to ensure code runs once and only once in any mode, use [global fixtures](#global-fixtures)._
 
-As with other hooks, `this` refers to to the current context object:
+As with other hooks, `this` refers to the current context object:
 
 ```js
 // test/hooks.mjs
@@ -1779,7 +1779,7 @@ describe('Array', function () {
       it('should not throw an error', function () {
         (function () {
           [1, 2, 3].indexOf(4);
-        }.should.not.throw());
+        }).should.not.throw();
       });
       it('should return -1', function () {
         [1, 2, 3].indexOf(4).should.equal(-1);
@@ -2216,11 +2216,22 @@ If no custom path was given, and if there are multiple configuration files in th
 1. `.mocharc.jsonc`
 1. `.mocharc.json`
 
+### Environment Variables
+
+The `MOCHA_OPTIONS` environment variable may be used to specify command line arguments. These arguments take priority over those found in configuration files.
+
+For example, setting the `bail` and `retries` options:
+
+```bash
+$ MOCHA_OPTIONS="--bail --retries 3" mocha
+```
+
 ### Merging
 
 Mocha will also _merge_ any options found in `package.json` into its run-time configuration. In case of conflict, the priority is:
 
 1. Arguments specified on command-line
+1. Arguments specified in `MOCHA_OPTIONS` environment variable.
 1. Configuration file (`.mocharc.js`, `.mocharc.yml`, etc.)
 1. `mocha` property of `package.json`
 
@@ -2259,10 +2270,11 @@ Some shells support recursive matching by using the globstar (`**`) wildcard. Ba
 $ mocha "./spec/**/*.js"
 ```
 
-[You should _always_ quote your globs in npm scripts][article-globbing]. If you
-use double quotes, it's the shell on UNIX that will expand the glob. On the
-other hand, if you use single quotes, the [`node-glob`][npm-glob] module will
-handle its expansion.
+You should _always_ quote your globs in npm scripts. If you
+use quotes, the [`node-glob`][npm-glob] module will
+handle its expansion. For maximum compatibility,
+surround the entire expression with double quotes and refrain
+from `$`, `"`, `^`, and `\` within your expression.
 
 See this [tutorial][gist-globbing-tutorial] on using globs.
 
@@ -2348,29 +2360,29 @@ $ npm test
 
 ## More Information
 
-In addition to chatting with us on [Gitter][gitter-mocha], for additional information such as using
+In addition to chatting with us on [our Discord][discord-mocha], for additional information such as using
 spies, mocking, and shared behaviours be sure to check out the [Mocha Wiki][mocha-wiki] on GitHub.
 For a running example of Mocha, view [example/tests.html](example/tests.html). For the JavaScript API, view the [API documentation](api/)
-or the [source](https://github.com/mochajs/mocha/blob/master/lib/mocha.js).
+or the [source](https://github.com/mochajs/mocha/blob/main/lib/mocha.js).
 
 [//]: # 'Cross reference section'
-[article-globbing]: https://medium.com/@jakubsynowiec/you-should-always-quote-your-globs-in-npm-scripts-621887a2a784
 [bash-globbing]: https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
 [better-assert]: https://github.com/visionmedia/better-assert
 [caniuse-notifications]: https://caniuse.com/#feat=notifications
 [caniuse-promises]: https://caniuse.com/#feat=promises
 [chai]: https://www.chaijs.com/
 [connect-test-output]: https://github.com/senchalabs/connect/blob/90a725343c2945aaee637e799b1cd11e065b2bff/tests.md
+[discord-mocha]: https://discord.gg/KeDn2uXhER
 [emacs]: https://www.gnu.org/software/emacs/
 [emacs-mocha.el]: https://github.com/scottaj/mocha.el
-[example-babel]: https://github.com/mochajs/mocha-examples/tree/master/packages/babel
+[example-babel]: https://github.com/mochajs/mocha-examples/tree/main/packages/babel
 [example-connect-test]: https://github.com/senchalabs/connect/tree/master/test
 [example-express-test]: https://github.com/visionmedia/express/tree/master/test
-[example-mocha-test]: https://github.com/mochajs/mocha/tree/master/test
-[example-mocha-config]: https://github.com/mochajs/mocha/tree/master/example/config
+[example-mocha-test]: https://github.com/mochajs/mocha/tree/main/test
+[example-mocha-config]: https://github.com/mochajs/mocha/tree/main/example/config
 [example-superagent-test]: https://github.com/visionmedia/superagent/tree/master/test/node
-[example-third-party-reporter]: https://github.com/mochajs/mocha-examples/tree/master/packages/third-party-reporter
-[example-typescript]: https://github.com/mochajs/mocha-examples/tree/master/packages/typescript
+[example-third-party-reporter]: https://github.com/mochajs/mocha-examples/tree/main/packages/third-party-reporter
+[example-typescript]: https://github.com/mochajs/mocha-examples/tree/main/packages/typescript
 [example-websocket.io-test]: https://github.com/LearnBoost/websocket.io/tree/master/test
 [expect.js]: https://github.com/LearnBoost/expect.js
 [expresso]: https://github.com/tj/expresso
@@ -2378,7 +2390,6 @@ or the [source](https://github.com/mochajs/mocha/blob/master/lib/mocha.js).
 [github-mocha]: https://github.com/mochajs/mocha
 [gist-async-hooks]: https://gist.github.com/boneskull/7fe75b63d613fa940db7ec990a5f5843
 [gist-globbing-tutorial]: https://gist.github.com/reggi/475793ea1846affbcfe8
-[gitter-mocha]: https://gitter.im/mochajs/mocha
 [jetbrains]: https://www.jetbrains.com/
 [jetbrains-plugin]: https://www.jetbrains.com/idea/features/nodejs.html
 [mdn-array-sort]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
@@ -2417,7 +2428,7 @@ or the [source](https://github.com/mochajs/mocha/blob/master/lib/mocha.js).
 [unexpected]: https://unexpected.js.org/
 [vscode-mocha-sidebar]: https://marketplace.visualstudio.com/items?itemName=maty.vscode-mocha-sidebar
 [wallaby.js]: https://wallabyjs.com/
-[yargs-configobject-extends]: http://yargs.js.org/docs/#api-configobject-extends-keyword
+[yargs-configobject-extends]: http://yargs.js.org/docs/#api-reference-configobject-extends-keyword
 [zsh-globbing]: http://zsh.sourceforge.net/Doc/Release/Expansion.html#Recursive-Globbing
 [root hook plugins]: #root-hook-plugins
 [global setup fixtures]: #global-setup-fixtures
